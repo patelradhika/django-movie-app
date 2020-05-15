@@ -34,3 +34,19 @@ def create(request):
         return redirect('/')
     else:
         return redirect('/')
+
+
+def edit(request, id):
+    if request.method == "POST":
+        movie = Movies.objects.get(id=id)
+
+        movie.movie = request.POST.get('name')
+        movie.rating = int(request.POST.get('rating'))
+        movie.pic = request.POST.get('pic') or movie.pic
+        movie.desc = request.POST.get('desc') or None
+
+        movie.save()
+
+        return redirect('/')
+    else:
+        return redirect('/')
