@@ -10,8 +10,6 @@ function main() {
         $(this).find('.movies-rating').toggleClass('hide');
         $(this).find('.movies-detail').toggleClass('hide');
     });
-
-    modal();
 }
 
 $(document).ready(main());
