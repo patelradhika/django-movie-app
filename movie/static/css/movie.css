@@ -8,8 +8,7 @@
 }
 
 .movies-image {
-    max-width: 400px;
-    max-height: 400px;
+    height: 400px;
 }
 
 .movies-title {

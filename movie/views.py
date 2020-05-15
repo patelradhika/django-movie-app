@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Movies
 
@@ -19,3 +19,18 @@ def search(request):
 
     frontend = {'movies': movies}
     return render(request, 'movie/home.html', frontend)
+
+
+def create(request):
+    if request.method == 'POST':
+        name = request.POST.get('movie-name')
+        rating = int(request.POST.get('movie-rating'))
+        pic = request.POST.get('movie-pic') or "https://www.prokerala.com/movies/assets/img/no-poster-available.jpg"
+        desc = request.POST.get('movie-desc') or None
+
+        movie = Movies.objects.create(movie=name, rating=rating, pic=pic, desc=desc)
+        movie.save()
+
+        return redirect('/')
+    else:
+        return redirect('/')
