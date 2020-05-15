@@ -1,3 +1,4 @@
+<!-- DOCTYPE HTML -->
 {% load static %}
 
 <html lang="en">
@@ -7,6 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Movie App</title>
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'css/movie.css' %}">
     </head>
@@ -15,77 +17,38 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="col">
                 <a class="navbar-brand" href="{% url 'home' %}">Radz Movie App</a>
-            </div>
-            
-            <div class="col">
+
+                <button class="btn btn-primary my-2 my-sm-0 float-right">Create</button>
                 <form class="form-inline my-2 my-lg-0 float-right">
                     <input class="form-control mr-sm-2" type="search" name="search-movie" placeholder="Search Movie" aria-label="Search Movie">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <button class="btn btn-outline-info my-2 my-sm-0 mr-5" type="submit">Search</button>
                 </form>
             </div>
         </nav>
 
-        <div class="container">
-            <div class="row mt-5">
-                <div class="col s4">
-                    <div class="card">
-                        <img class="card-img-top" src="" alt="Card image cap">
-                        <div class="card-body">
-                        <p class="card-text">Movie Title</p>
+        <div class="result">
+            <!-- Show all movies -->
+            <div class="row">
+                {% for movie in movies %}
+                    <div class="col-3">
+                        <div class="card">
+                            <i class="movies-star fa fa-star hide"></i>
+                            <p class="movies-rating hide">{{ movie.rating }}/10</p>
+                            <button class="btn movies-detail hide">View Details</button>
+
+                            <img class="movies-image" src="{{ movie.pic }}" alt="" />
+                            <p class="movies-title">{{ movie.movie }}</p>
                         </div>
                     </div>
-                </div>
-    
-                <div class="col s4">
-                    <div class="card">
-                        <img class="card-img-top" src="" alt="Card image cap">
-                        <div class="card-body">
-                        <p class="card-text">Movie Title</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="col s4">
-                    <div class="card">
-                        <img class="card-img-top" src="" alt="Card image cap">
-                        <div class="card-body">
-                        <p class="card-text">Movie Title</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="col s4">
-                    <div class="card">
-                        <img class="card-img-top" src="" alt="Card image cap">
-                        <div class="card-body">
-                        <p class="card-text">Movie Title</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="col s4">
-                    <div class="card">
-                        <img class="card-img-top" src="" alt="Card image cap">
-                        <div class="card-body">
-                        <p class="card-text">Movie Title</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="col s4">
-                    <div class="card">
-                        <img class="card-img-top" src="" alt="Card image cap">
-                        <div class="card-body">
-                        <p class="card-text">Movie Title</p>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <script src="{% static 'js/movie.js' %}"></script>
     </body>
 
 </html>
