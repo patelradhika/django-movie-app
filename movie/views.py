@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 
 from .models import Movies
@@ -23,13 +24,22 @@ def search(request):
 
 def create(request):
     if request.method == 'POST':
-        name = request.POST.get('movie-name')
-        rating = int(request.POST.get('movie-rating'))
-        pic = request.POST.get('movie-pic') or "https://www.prokerala.com/movies/assets/img/no-poster-available.jpg"
-        desc = request.POST.get('movie-desc') or None
+        try:
+            name = request.POST.get('movie-name')
+            rating = int(request.POST.get('movie-rating'))
+            pic = request.POST.get('movie-pic') or "https://www.prokerala.com/movies/assets/img/no-poster-available.jpg"
+            desc = request.POST.get('movie-desc') or None
 
-        movie = Movies.objects.create(movie=name, rating=rating, pic=pic, desc=desc)
-        movie.save()
+            movie = Movies.objects.create(movie=name, rating=rating, pic=pic, desc=desc)
+            movie.save()
+
+            messages.success(request, "Successfully added new movie: {}".format(movie.movie))
+        
+        except ValueError:
+            messages.warning(request, "Got error while updating movie: Rating must be a number(1-10)")
+            
+        except Exception as e:
+            messages.warning(request, "Got error while adding new movie: {}".format(e))
 
         return redirect('/')
     else:
@@ -38,14 +48,22 @@ def create(request):
 
 def edit(request, id):
     if request.method == "POST":
-        movie = Movies.objects.get(id=id)
+        try:
+            movie = Movies.objects.get(id=id)
 
-        movie.movie = request.POST.get('name')
-        movie.rating = int(request.POST.get('rating'))
-        movie.pic = request.POST.get('pic') or movie.pic
-        movie.desc = request.POST.get('desc') or None
+            movie.movie = request.POST.get('name')
+            movie.rating = int(request.POST.get('rating'))
+            movie.pic = request.POST.get('pic') or movie.pic
+            movie.desc = request.POST.get('desc') or None
 
-        movie.save()
+            movie.save()
+            messages.success(request, "Successfully updated movie: {}".format(movie.movie))
+
+        except ValueError:
+            messages.warning(request, "Got error while updating movie: Rating must be a number(1-10)")
+
+        except Exception as e:
+            messages.warning(request, "Got error while updating movie: {}".format(e))
 
         return redirect('/')
     else:
@@ -54,8 +72,16 @@ def edit(request, id):
 
 def delete(request, id):
     if request.method == 'POST':
-        movie = Movies.objects.get(id=id)
-        movie.delete()
+        try:
+            movie = Movies.objects.get(id=id)
+            name = movie.movie
+            
+            movie.delete()
+
+            messages.success(request, "Successfully deleted movie: {}".format(name))
+
+        except Exception as e:
+            messages.warning(request, "Got error while deleting movie: {}".format(e))
         
         return redirect('/')
     else:
