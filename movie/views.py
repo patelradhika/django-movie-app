@@ -50,3 +50,13 @@ def edit(request, id):
         return redirect('/')
     else:
         return redirect('/')
+
+
+def delete(request, id):
+    if request.method == 'POST':
+        movie = Movies.objects.get(id=id)
+        movie.delete()
+        
+        return redirect('/')
+    else:
+        return redirect('/')
